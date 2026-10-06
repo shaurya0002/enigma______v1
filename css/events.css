@@ -1,0 +1,466 @@
+    /* ============================================
+    Events Page Styles
+    ============================================ */
+
+    .events-page {
+        background-color: var(--color-bg);
+        min-height: 100vh;
+    }
+
+    .page-title {
+        text-align: center;
+        margin-bottom: var(--spacing-xl);
+        font-size: clamp(2.5rem, 5vw, 4rem);
+    }
+
+    /* Filter Buttons */
+    .event-filters {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: center;
+        margin-bottom: var(--spacing-xl);
+        padding: 10px 16px;
+        background: rgba(18, 20, 29, 0.85);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: var(--radius-full);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        max-width: 1100px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .filter-btn {
+        padding: 8px 18px;
+        background-color: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        color: rgba(255, 255, 255, 0.7);
+        border-radius: var(--radius-full);
+        font-family: var(--font-heading);
+        font-weight: 600;
+        font-size: 0.85rem;
+        cursor: pointer;
+        transition: all var(--transition-fast);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .filter-btn:hover {
+        border-color: rgba(255, 255, 255, 0.35);
+        color: #FFFFFF;
+        background: rgba(255, 255, 255, 0.06);
+        transform: translateY(-2px);
+    }
+
+    .filter-btn.active {
+        background: var(--color-primary);
+        border-color: var(--color-primary);
+        color: #0A0B10;
+        font-weight: 700;
+        box-shadow: 0 4px 15px rgba(0, 212, 255, 0.35);
+    }
+
+    /* Events Grid */
+    .events-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+        gap: var(--spacing-lg);
+    }
+
+    .event-card {
+        background: rgba(18, 14, 32, 0.75);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        border-radius: var(--radius-xl);
+        border: 1px solid rgba(0, 240, 255, 0.2);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+        overflow: hidden;
+        transition: all var(--transition-normal);
+        display: block;
+        position: relative;
+    }
+
+    .event-card.visible {
+        display: block;
+    }
+
+    .event-card:hover {
+        transform: translateY(-8px) scale(1.02);
+        border-color: #00F0FF;
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 240, 255, 0.3);
+    }
+
+    .event-image {
+        width: 100%;
+        height: 180px;
+        overflow: hidden;
+        position: relative;
+        border-radius: 12px;
+        z-index: 0;
+    }
+
+    /* Remove category-based background images - using actual event images instead */
+    .event-image::after {
+        display: none;
+    }
+
+    /* Event overlay - similar to home page */
+    .event-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.3) 100%);
+        z-index: 1;
+        transition: background var(--transition-normal);
+        border-radius: 12px;
+        pointer-events: none;
+    }
+
+    .event-card:hover .event-overlay {
+        background: linear-gradient(135deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.2) 100%);
+    }
+
+    /* Event images - using CSS backgrounds for online events */
+    .event-image {
+        background: #1a1a1a;
+        position: relative;
+        overflow: hidden;
+        min-height: 180px;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: crisp-edges;
+    }
+
+    /* All Events - Using local images from assets/new_events/ */
+    /* Literary Events */
+    .event-card[data-event="open-mic"] .event-image {
+        background-color: #1a1a1a;
+        background-image: 
+            linear-gradient(135deg, rgba(0, 255, 255, 0.05) 0%, rgba(255, 0, 255, 0.05) 100%),
+            url('../assets/new_events/open_mic.jpg');
+        background-size: cover, cover;
+        background-position: center, center;
+        background-repeat: no-repeat, no-repeat;
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: crisp-edges;
+    }
+
+    /* Theatre Events */
+    .event-card[data-event="dramatics"] .event-image {
+        background-color: #1a1a1a;
+        background-image: 
+            linear-gradient(135deg, rgba(0, 255, 255, 0.05) 0%, rgba(255, 0, 255, 0.05) 100%),
+            url('../assets/new_events/nukad-natak.png');
+        background-size: cover, cover;
+        background-position: center, center;
+        background-repeat: no-repeat, no-repeat;
+    }
+
+    /* Sports Events */
+    .event-card[data-event="chess"] .event-image {
+        background-color: #1a1a1a;
+        background-image: 
+            linear-gradient(135deg, rgba(0, 255, 255, 0.05) 0%, rgba(255, 0, 255, 0.05) 100%),
+            url('https://images.unsplash.com/photo-1529699211952-734e80c4d42b?w=800&q=80');
+        background-size: cover, cover;
+        background-position: center, center;
+        background-repeat: no-repeat, no-repeat;
+    }
+
+    /* Creative Events */
+    .event-card[data-event="face-painting"] .event-image {
+        background-color: #1a1a1a;
+        background-image: 
+            linear-gradient(135deg, rgba(0, 255, 255, 0.05) 0%, rgba(255, 0, 255, 0.05) 100%),
+            url('../assets/new_events/face_art.jpg');
+        background-size: cover, cover;
+        background-position: center, center;
+        background-repeat: no-repeat, no-repeat;
+    }
+
+    .event-card[data-event="canvas-painting"] .event-image {
+        background-color: #1a1a1a;
+        background-image: 
+            linear-gradient(135deg, rgba(0, 255, 255, 0.05) 0%, rgba(255, 0, 255, 0.05) 100%),
+            url('../assets/new_events/painting.jpg');
+        background-size: cover, cover;
+        background-position: center, center;
+        background-repeat: no-repeat, no-repeat;
+    }
+
+    .event-card[data-event="mehndi-art"] .event-image {
+        background-color: #1a1a1a;
+        background-image: 
+            linear-gradient(135deg, rgba(0, 255, 255, 0.05) 0%, rgba(255, 0, 255, 0.05) 100%),
+            url('../assets/new_events/mehandi.jpg');
+        background-size: cover, cover;
+        background-position: center, center;
+        background-repeat: no-repeat, no-repeat;
+    }
+
+    .event-card[data-event="rangoli"] .event-image {
+        background-color: #1a1a1a;
+        background-image: 
+            linear-gradient(135deg, rgba(0, 255, 255, 0.05) 0%, rgba(255, 0, 255, 0.05) 100%),
+            url('../assets/new_events/rangoli.jpg');
+        background-size: cover, cover;
+        background-position: center, center;
+        background-repeat: no-repeat, no-repeat;
+    }
+
+    .event-card[data-event="roadies"] .event-image {
+        background-color: #1a1a1a;
+        background-image: 
+            linear-gradient(135deg, rgba(0, 255, 255, 0.05) 0%, rgba(255, 0, 255, 0.05) 100%),
+            url('../assets/new_events/Roadies.jpg');
+        background-size: cover, cover;
+        background-position: center, center;
+        background-repeat: no-repeat, no-repeat;
+    }
+
+    .event-card[data-event="treasure-hunt"] .event-image {
+        background-color: #1a1a1a;
+        background-image: 
+            linear-gradient(135deg, rgba(0, 255, 255, 0.05) 0%, rgba(255, 0, 255, 0.05) 100%),
+            url('../assets/new_events/treasure_hunt.jpg');
+        background-size: cover, cover;
+        background-position: center, center;
+        background-repeat: no-repeat, no-repeat;
+    }
+
+    /* Online Events */
+    .event-card[data-event="bug-brawl"] .event-image {
+        background-color: #1a1a1a;
+        background-image: 
+            linear-gradient(135deg, rgba(0, 255, 255, 0.08) 0%, rgba(255, 0, 255, 0.08) 100%),
+            url('https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&q=80');
+        background-size: cover, cover;
+        background-position: center, center;
+        background-repeat: no-repeat, no-repeat;
+    }
+
+    .event-card[data-event="web-die"] .event-image {
+        background-color: #1a1a1a;
+        background-image: 
+            linear-gradient(135deg, rgba(0, 255, 255, 0.08) 0%, rgba(255, 0, 255, 0.08) 100%),
+            url('https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&q=80');
+        background-size: cover, cover;
+        background-position: center, center;
+        background-repeat: no-repeat, no-repeat;
+    }
+
+    .event-card[data-event="free-fire"] .event-image,
+    .event-card[data-event="bgmi"] .event-image,
+    .event-card[data-event="gamers-arena"] .event-image {
+        background-color: #1a1a1a;
+        background-image: 
+            linear-gradient(135deg, rgba(0, 255, 255, 0.08) 0%, rgba(255, 0, 255, 0.08) 100%),
+            url('https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&q=80');
+        background-size: cover, cover;
+        background-position: center, center;
+        background-repeat: no-repeat, no-repeat;
+    }
+
+    /* Fashion Events */
+    .event-card[data-event="fashion-show"] .event-image {
+        background-color: #1a1a1a;
+        background-image: 
+            linear-gradient(135deg, rgba(0, 255, 255, 0.05) 0%, rgba(255, 0, 255, 0.05) 100%),
+            url('../assets/new_events/fashion_show.jpg');
+        background-size: cover, cover;
+        background-position: center, center;
+        background-repeat: no-repeat, no-repeat;
+    }
+
+    /* Dance Events */
+    .event-card[data-event="dance"] .event-image {
+        background-color: #1a1a1a;
+        background-image: 
+            linear-gradient(135deg, rgba(0, 255, 255, 0.05) 0%, rgba(255, 0, 255, 0.05) 100%),
+            url('../assets/new_events/dance.png');
+        background-size: cover, cover;
+        background-position: center, center;
+        background-repeat: no-repeat, no-repeat;
+    }
+
+    /* Music Events */
+    .event-card[data-event="singing"] .event-image {
+        background-color: #1a1a1a;
+        background-image: 
+            linear-gradient(135deg, rgba(0, 255, 255, 0.05) 0%, rgba(255, 0, 255, 0.05) 100%),
+            url('https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&q=80');
+        background-size: cover, cover;
+        background-position: center, center;
+        background-repeat: no-repeat, no-repeat;
+    }
+
+    .event-card[data-event="instrumental"] .event-image {
+        background-color: #1a1a1a;
+        background-image: 
+            linear-gradient(135deg, rgba(0, 255, 255, 0.05) 0%, rgba(255, 0, 255, 0.05) 100%),
+            url('https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=800&q=80');
+        background-size: cover, cover;
+        background-position: center, center;
+        background-repeat: no-repeat, no-repeat;
+    }
+
+/* Hover effect for online event images */
+.event-card[data-online="true"]:hover .event-image {
+    transform: scale(1.02);
+    filter: brightness(1.1);
+}
+
+.event-card[data-online="true"] .event-image {
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+
+.event-info {
+    padding: var(--spacing-md);
+}
+
+.event-category {
+    display: inline-block;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    background-color: var(--color-primary);
+    color: var(--color-bg);
+    border-radius: var(--radius-sm);
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: var(--spacing-sm);
+    margin-right: var(--spacing-xs);
+}
+
+.event-mode {
+    display: inline-block;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    background-color: var(--color-secondary);
+    color: var(--color-bg);
+    border-radius: var(--radius-sm);
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: var(--spacing-sm);
+}
+
+.event-mode.offline {
+    background-color: #4CAF50;
+}
+
+.event-mode.online {
+    background-color: #2196F3;
+}
+
+.event-fee {
+    color: var(--color-text-primary);
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: var(--spacing-sm);
+    margin-top: var(--spacing-xs);
+}
+
+.event-info h3 {
+    font-size: 1.5rem;
+    margin-bottom: var(--spacing-xs);
+    color: var(--color-text-primary);
+}
+
+.event-venue {
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+    margin-bottom: var(--spacing-md);
+}
+
+.event-info .btn {
+    width: 100%;
+    text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+    .events-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .events-page {
+        padding-top: calc(var(--spacing-lg) + 80px) !important;
+    }
+
+    .page-title {
+        font-size: 2rem;
+        margin-bottom: var(--spacing-lg);
+    }
+
+    .events-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-md);
+    }
+
+    .event-filters {
+        justify-content: flex-start;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        padding: var(--spacing-sm);
+        gap: var(--spacing-xs);
+    }
+
+    .filter-btn {
+        white-space: nowrap;
+        flex-shrink: 0;
+        font-size: 0.9rem;
+        padding: var(--spacing-xs) var(--spacing-sm);
+    }
+
+    .event-card {
+        margin-bottom: var(--spacing-sm);
+    }
+
+    .event-image {
+        height: 180px;
+    }
+
+    .event-info {
+        padding: var(--spacing-sm);
+    }
+
+    .event-info h3 {
+        font-size: 1.3rem;
+    }
+
+    .event-category,
+    .event-mode {
+        font-size: 0.7rem;
+        padding: 4px var(--spacing-xs);
+    }
+
+    .event-fee {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .page-title {
+        font-size: 1.8rem;
+    }
+
+    .event-image {
+        height: 180px;
+    }
+
+    .event-info h3 {
+        font-size: 1.2rem;
+    }
+}
+
+

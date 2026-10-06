@@ -1,0 +1,2060 @@
+/* ============================================
+   Home Page Styles — Minimalist College Fest Edition
+   ============================================ */
+
+/* Hero Section — true full-screen, edge-to-edge */
+.hero-section {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    min-height: 600px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background-color: #0A0B10;
+    margin: 0;
+    padding: 0;
+}
+
+.hero-background {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.hero-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+    pointer-events: none;
+    filter: brightness(0.85) saturate(1.1);
+}
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(10, 11, 16, 0.4) 0%,
+        rgba(10, 11, 16, 0.1) 30%,
+        rgba(10, 11, 16, 0.1) 65%,
+        rgba(10, 11, 16, 0.88) 100%
+    );
+    z-index: 2;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 3;
+    text-align: center;
+    color: #FFFFFF;
+    max-width: 800px;
+    padding: var(--spacing-md);
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+}
+
+.hero-title {
+    font-size: clamp(2.8rem, 7vw, 5.5rem);
+    font-weight: 900;
+    margin-bottom: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 8px;
+    color: #FFFFFF;
+    line-height: 1.05;
+    position: relative;
+    display: inline-block;
+    text-shadow: 0 2px 25px rgba(0, 0, 0, 0.9);
+    animation: glitch 5s infinite ease-in-out;
+}
+
+.hero-title::before,
+.hero-title::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    pointer-events: none;
+}
+
+.hero-title::before {
+    left: 3px;
+    text-shadow: -3px 0 #ff0055, 0 0 10px rgba(255, 0, 85, 0.7);
+    animation: glitch-anim-1 4s infinite linear alternate-reverse;
+}
+
+.hero-title::after {
+    left: -3px;
+    text-shadow: -3px 0 #00ffff, 2px 2px #ff00de, 0 0 10px rgba(0, 255, 255, 0.7);
+    animation: glitch-anim-2 4s infinite linear alternate-reverse;
+}
+
+@keyframes glitch-anim-1 {
+    0%, 70% {
+        clip-path: inset(50% 0 50% 0);
+        opacity: 0;
+        transform: translate(0);
+    }
+    71% {
+        clip-path: inset(10% 0 60% 0);
+        opacity: 1;
+        transform: translate(-4px, -2px);
+    }
+    75% {
+        clip-path: inset(80% 0 5% 0);
+        opacity: 1;
+        transform: translate(3px, 1px);
+    }
+    79% {
+        clip-path: inset(30% 0 45% 0);
+        opacity: 1;
+        transform: translate(-3px, 2px);
+    }
+    83% {
+        clip-path: inset(65% 0 15% 0);
+        opacity: 1;
+        transform: translate(4px, -1px);
+    }
+    87% {
+        clip-path: inset(5% 0 75% 0);
+        opacity: 1;
+        transform: translate(-2px, 0);
+    }
+    91% {
+        clip-path: inset(45% 0 35% 0);
+        opacity: 1;
+        transform: translate(3px, -2px);
+    }
+    95%, 100% {
+        clip-path: inset(50% 0 50% 0);
+        opacity: 0;
+        transform: translate(0);
+    }
+}
+
+@keyframes glitch-anim-2 {
+    0%, 70% {
+        clip-path: inset(50% 0 50% 0);
+        opacity: 0;
+        transform: translate(0);
+    }
+    72% {
+        clip-path: inset(60% 0 15% 0);
+        opacity: 1;
+        transform: translate(4px, 2px);
+    }
+    76% {
+        clip-path: inset(20% 0 65% 0);
+        opacity: 1;
+        transform: translate(-3px, -1px);
+    }
+    80% {
+        clip-path: inset(75% 0 5% 0);
+        opacity: 1;
+        transform: translate(3px, -2px);
+    }
+    84% {
+        clip-path: inset(40% 0 40% 0);
+        opacity: 1;
+        transform: translate(-4px, 1px);
+    }
+    88% {
+        clip-path: inset(15% 0 70% 0);
+        opacity: 1;
+        transform: translate(2px, -1px);
+    }
+    92% {
+        clip-path: inset(85% 0 2% 0);
+        opacity: 1;
+        transform: translate(-3px, 2px);
+    }
+    96%, 100% {
+        clip-path: inset(50% 0 50% 0);
+        opacity: 0;
+        transform: translate(0);
+    }
+}
+
+@keyframes glitch-skew {
+    0%, 70% {
+        transform: skew(0deg);
+    }
+    72% {
+        transform: skew(-4deg) scale(1.02);
+    }
+    76% {
+        transform: skew(5deg) scale(0.98);
+    }
+    80% {
+        transform: skew(-3deg);
+    }
+    84% {
+        transform: skew(4deg) scale(1.01);
+    }
+    88% {
+        transform: skew(-1deg);
+    }
+    92% {
+        transform: skew(0deg);
+    }
+    100% {
+        transform: skew(0deg);
+    }
+}
+
+.hero-tagline {
+    font-size: clamp(0.9rem, 1.8vw, 1.15rem);
+    font-weight: 500;
+    margin-bottom: 1.6rem;
+    color: rgba(255, 255, 255, 0.82);
+    text-transform: uppercase;
+    letter-spacing: 6px;
+    text-shadow: 0 1px 12px rgba(0, 0, 0, 0.8);
+}
+
+.hero-dates {
+    display: inline-block;
+    font-size: 0.85rem;
+    margin-bottom: 2.4rem;
+    color: #FFFFFF;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 7px 28px;
+    border-radius: var(--radius-full);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: var(--spacing-sm);
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 12px 30px;
+    border-radius: var(--radius-full);
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 0.88rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: all var(--transition-fast);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+}
+
+.btn-primary {
+    background-color: #FFFFFF;
+    color: #0A0B10;
+    border: 2px solid #FFFFFF;
+    font-weight: 700;
+}
+
+.btn-primary:hover {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+    color: #0A0B10;
+}
+
+.btn-outline {
+    background: transparent;
+    color: #FFFFFF;
+    border: 2px solid rgba(255, 255, 255, 0.65);
+}
+
+.btn-outline:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: #FFFFFF;
+    color: #FFFFFF;
+}
+
+/* Statistics Section */
+.stats-section {
+    position: relative;
+    background: transparent;
+    padding: var(--spacing-lg) 0;
+    margin-top: -20px;
+    z-index: 5;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: var(--spacing-md);
+    text-align: center;
+}
+
+.stat-item {
+    padding: var(--spacing-lg) var(--spacing-md);
+    background: #12141D;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    transition: all var(--transition-normal);
+}
+
+.stat-item:hover {
+    transform: translateY(-4px);
+    border-color: rgba(0, 212, 255, 0.3);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+}
+
+.stat-number {
+    font-family: var(--font-heading);
+    font-size: clamp(2.8rem, 5vw, 4rem);
+    font-weight: 800;
+    color: var(--color-primary);
+    margin-bottom: var(--spacing-xs);
+    line-height: 1;
+}
+
+.stat-label {
+    font-family: var(--font-heading);
+    font-size: 0.95rem;
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 600;
+}
+
+/* Categories Section */
+.categories-section {
+    background-color: var(--color-bg);
+    padding: var(--spacing-xl) 0;
+}
+
+.section-title {
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+    color: var(--color-text-primary);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+}
+
+.categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+    gap: var(--spacing-lg);
+}
+
+.category-card {
+    position: relative;
+    height: 360px;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    display: block;
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(18, 20, 29, 0.9);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    transition: all var(--transition-normal);
+}
+
+.category-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+}
+
+.category-image {
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    width: calc(100% + 20px);
+    height: calc(100% + 20px);
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    z-index: 0;
+    opacity: 0.75;
+    filter: blur(4px) brightness(0.65) saturate(120%);
+    transition: all var(--transition-normal);
+    transform: scale(1.04);
+}
+
+.category-card:hover .category-image {
+    opacity: 0.95;
+    filter: blur(1.5px) brightness(0.85) saturate(135%);
+    transform: scale(1.08);
+}
+
+/* Category-specific real image backgrounds */
+.category-card[href*="dance"] .category-image {
+    background-image: url('../assets/new_events/dance.png');
+}
+
+.category-card[href*="music"] .category-image {
+    background-image: url('../assets/singer/Jassi%20gill.webp');
+}
+
+.category-card[href*="creative"] .category-image {
+    background-image: url('../assets/new_events/painting.jpg');
+}
+
+.category-card[href*="theatre"] .category-image {
+    background-image: url('../assets/new_events/nukad-natak.png');
+}
+
+.category-card[href*="fashion"] .category-image {
+    background-image: url('../assets/new_events/fashion_show.jpg');
+}
+
+.category-card[href*="gaming"] .category-image {
+    background-image: url('https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&q=80');
+}
+
+.category-card[href*="literary"] .category-image {
+    background-image: url('../assets/new_events/open_mic.jpg');
+}
+
+.category-card[href*="sports"] .category-image {
+    background-image: url('https://images.unsplash.com/photo-1529699211952-734e80c4d42b?w=800&q=80');
+}
+
+.category-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(10, 11, 16, 0.4) 0%, rgba(10, 11, 16, 0.7) 100%);
+    z-index: 1;
+    transition: background var(--transition-normal);
+}
+
+.category-card:hover .category-overlay {
+    background: linear-gradient(135deg, rgba(10, 11, 16, 0.2) 0%, rgba(10, 11, 16, 0.5) 100%);
+}
+
+.category-content {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: var(--spacing-md);
+    color: var(--color-text-primary);
+    text-align: center;
+}
+
+.category-content h3 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: var(--spacing-xs);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.category-count {
+    font-size: 1.2rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Sponsors Section */
+/* Schedule Section - Fest Lineup */
+.schedule-section {
+    position: relative;
+    background-color: transparent;
+    padding: var(--spacing-xxl) 0;
+}
+
+.schedule-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    gap: var(--spacing-xl);
+    margin-top: var(--spacing-lg);
+}
+
+.schedule-day {
+    background: rgba(18, 20, 29, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-xl);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+    transition: all var(--transition-normal);
+}
+
+.schedule-day:hover {
+    border-color: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+}
+
+.day-header {
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-md);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.day-header h3 {
+    font-size: 1.8rem;
+    color: #FFFFFF;
+    margin-bottom: var(--spacing-xs);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+}
+
+.day-date {
+    color: var(--color-text-secondary);
+    font-size: 1.05rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.day-events {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.schedule-event {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: var(--radius-sm);
+    border-left: 3px solid rgba(255, 255, 255, 0.3);
+    border-top: 1px solid rgba(255, 255, 255, 0.04);
+    transition: all 0.25s ease;
+}
+
+.schedule-event:hover {
+    transform: translateX(6px);
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.schedule-event .event-name {
+    font-weight: 500;
+    color: #FFFFFF;
+    font-size: 1rem;
+}
+
+.schedule-event .event-venue {
+    color: var(--color-text-secondary);
+    font-weight: 500;
+    font-size: 0.82rem;
+    text-align: right;
+    padding: 2px 10px;
+    border-radius: var(--radius-full);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.schedule-event-concert {
+    background: linear-gradient(135deg, rgba(255, 0, 127, 0.25) 0%, rgba(0, 240, 255, 0.2) 100%);
+    border-left: 5px solid #FF007F;
+    box-shadow: 0 4px 20px rgba(255, 0, 127, 0.3);
+}
+
+.schedule-event-concert .event-name {
+    color: #FFF;
+    font-weight: 700;
+    font-size: 1.15rem;
+    text-shadow: 0 0 10px rgba(255, 0, 127, 0.5);
+}
+
+.schedule-event-concert .event-venue {
+    color: #FF007F;
+    border-color: #FF007F;
+    background: rgba(255, 0, 127, 0.15);
+}
+
+.schedule-event-concert:hover {
+    background: linear-gradient(135deg, rgba(255, 0, 127, 0.35) 0%, rgba(0, 240, 255, 0.3) 100%);
+    box-shadow: 0 8px 30px rgba(255, 0, 127, 0.5);
+    transform: translateX(10px) scale(1.02);
+}
+
+.schedule-event-singer {
+    background: linear-gradient(135deg, rgba(0, 255, 255, 0.08) 0%, rgba(0, 0, 0, 0.2) 100%);
+    border-left: 3px solid var(--color-primary);
+    border-left-width: 3px;
+    padding-left: var(--spacing-lg);
+}
+
+.schedule-event-singer .event-name {
+    color: var(--color-text-primary);
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+.schedule-event-singer:hover {
+    background: linear-gradient(135deg, rgba(0, 255, 255, 0.12) 0%, rgba(0, 0, 0, 0.3) 100%);
+}
+
+.schedule-event-venue {
+    background: rgba(0, 255, 255, 0.05);
+    border-left: 2px solid rgba(0, 255, 255, 0.3);
+    margin-top: var(--spacing-md);
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.schedule-event-venue .event-name {
+    color: var(--color-text-secondary);
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.schedule-singers-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-md);
+    margin: var(--spacing-md) 0;
+}
+
+.schedule-singer-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.schedule-singer-image {
+    width: 100%;
+    max-width: 150px;
+    aspect-ratio: 1;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    border: 2px solid var(--color-primary);
+    background: linear-gradient(135deg, rgba(0, 255, 255, 0.1) 0%, rgba(0, 0, 0, 0.3) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.schedule-singer-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.schedule-singer-placeholder {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+.schedule-singer-label {
+    color: var(--color-primary);
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: var(--spacing-xs);
+}
+
+.schedule-singer-name {
+    color: var(--color-text-primary);
+    font-weight: 500;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.schedule-chief-guest .schedule-singer-image {
+    border-color: rgba(255, 215, 0, 0.8);
+    border-width: 3px;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+}
+
+.schedule-chief-guest .schedule-singer-label {
+    color: rgba(255, 215, 0, 0.9);
+    font-weight: 700;
+}
+
+.schedule-chief-guest .schedule-singer-name {
+    color: rgba(255, 215, 0, 0.9);
+    font-weight: 600;
+}
+
+/* Special Guests Section - Blurred backdrop per guest type */
+.guests-section {
+    position: relative;
+    background-color: #0A0B10;
+    padding: var(--spacing-xxl) 0;
+    overflow: hidden;
+    z-index: 1;
+}
+
+/* Singers backdrop — artist images blurred */
+.guests-section::before {
+    content: '';
+    position: absolute;
+    top: -15%;
+    left: -15%;
+    width: 130%;
+    height: 130%;
+    background-image: 
+        url('../assets/singer/Jassi%20gill.webp'),
+        url('../assets/singer/Babble%20Rai.webp');
+    background-size: 50% auto, 50% auto;
+    background-position: left 10% center, right 10% center;
+    background-repeat: no-repeat;
+    filter: blur(50px) brightness(0.28) saturate(160%);
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+/* Edge fade overlay */
+.guests-section::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, #0A0B10 0%, rgba(10, 11, 16, 0.55) 20%, rgba(10, 11, 16, 0.55) 80%, #0A0B10 100%);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.guests-section .container {
+    position: relative;
+    z-index: 2;
+}
+
+/* Chief Guest sub-section - separate blurred backdrop via the card itself */
+.guest-chief {
+    position: relative;
+    overflow: hidden;
+}
+
+.guest-chief::before {
+    content: '';
+    position: absolute;
+    inset: -30px;
+    background-image: url('../assets/chief%20guest/Mohammad%20Misbahuddin%20Faruqui.webp');
+    background-size: cover;
+    background-position: center top;
+    filter: blur(30px) brightness(0.2) saturate(80%);
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.guest-chief > * {
+    position: relative;
+    z-index: 1;
+}
+
+.guest-day-container {
+    margin-bottom: var(--spacing-xl);
+}
+
+.guest-day-container:last-child {
+    margin-bottom: 0;
+}
+
+.guests-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--spacing-lg);
+    justify-items: center;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.guest-card {
+    background: #12141D;
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+    transition: all var(--transition-normal);
+    width: 100%;
+    max-width: 320px;
+    position: relative;
+    overflow: hidden;
+}
+
+.guest-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(0, 212, 255, 0.4);
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.7), 0 0 25px rgba(0, 212, 255, 0.15);
+}
+
+.guest-label {
+    color: var(--color-primary);
+    font-weight: 700;
+    font-size: 0.8rem;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    background: rgba(0, 212, 255, 0.1);
+    padding: 4px 14px;
+    border-radius: var(--radius-full);
+}
+
+.guest-image {
+    width: 100%;
+    max-width: 200px;
+    aspect-ratio: 1;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    border: 2px solid rgba(255, 255, 255, 0.12);
+    background: #181B26;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    flex-shrink: 0;
+    margin: 0.4rem 0;
+}
+
+.guest-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    transition: transform var(--transition-slow);
+}
+
+.guest-card:hover .guest-image img {
+    transform: scale(1.05);
+}
+
+.guest-placeholder {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--color-primary);
+}
+
+.guest-name {
+    color: #FFFFFF;
+    font-weight: 700;
+    font-size: 1.15rem;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 0.25rem;
+    line-height: 1.3;
+}
+
+.guest-date {
+    color: var(--color-secondary);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-align: center;
+    letter-spacing: 0.5px;
+}
+
+.guest-venue-small {
+    color: var(--color-text-secondary);
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Chief Guest Gold Badge */
+.guest-chief .guest-label {
+    color: var(--color-secondary);
+    background: rgba(255, 183, 3, 0.12);
+}
+
+.guest-chief .guest-image {
+    border-color: rgba(255, 183, 3, 0.35);
+}
+
+.guest-chief:hover {
+    border-color: rgba(255, 183, 3, 0.5);
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.7), 0 0 25px rgba(255, 183, 3, 0.15);
+}
+
+/* Responsive Design for Guests Section */
+@media (max-width: 768px) {
+    .guests-section {
+        padding: var(--spacing-xl) 0;
+    }
+
+    .guests-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-md);
+        padding: 0 var(--spacing-sm);
+    }
+
+    .guest-card {
+        max-width: 100%;
+        padding: var(--spacing-lg);
+        width: 100%;
+    }
+
+    .guest-image {
+        max-width: 190px;
+        width: 190px;
+        height: 190px;
+        margin: 0 auto;
+    }
+}
+
+/* Grand Concert Hero Section - Fest Stage Glow */
+.grand-concert-hero {
+    position: relative;
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: var(--spacing-xxl) 0;
+    background: #090714;
+}
+
+.grand-concert-hero::before {
+    content: '';
+    position: absolute;
+    top: -20%;
+    left: -20%;
+    width: 140%;
+    height: 140%;
+    background-image: 
+        radial-gradient(circle at 30% 40%, rgba(255, 0, 127, 0.4) 0%, transparent 60%),
+        radial-gradient(circle at 70% 60%, rgba(0, 240, 255, 0.4) 0%, transparent 60%),
+        url('../assets/singer/Jassi%20gill.webp'),
+        url('../assets/singer/Babble%20Rai.webp');
+    background-size: auto, auto, 55% auto, 55% auto;
+    background-position: center, center, left center, right center;
+    background-repeat: no-repeat;
+    filter: blur(60px) saturate(220%) brightness(0.4);
+    transform: scale(1.2);
+    z-index: 0;
+    opacity: 0.9;
+}
+
+.concert-hero-title {
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    color: var(--color-primary);
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    text-align: center;
+    margin-bottom: var(--spacing-xxl);
+    position: relative;
+    z-index: 3;
+}
+
+.concert-hero-content {
+    position: relative;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    z-index: 2;
+    padding: var(--spacing-lg) 0;
+}
+
+.concert-background-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    overflow: hidden;
+    opacity: 0.3;
+}
+
+.concert-background-video iframe {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100vw;
+    height: 100vh;
+    min-height: 100vh;
+    min-width: 177.77vh;
+    pointer-events: none;
+    object-fit: cover;
+}
+
+.video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.7) 50%, rgba(0, 0, 0, 0.85) 100%);
+    z-index: 1;
+}
+
+.artists-showcase-hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-xl);
+    margin: var(--spacing-xxl) 0;
+    position: relative;
+    z-index: 2;
+    padding: 0 var(--spacing-md);
+}
+
+.artist-hero-left,
+.artist-hero-right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-lg);
+}
+
+.artist-image-large {
+    width: 100%;
+    max-width: 320px;
+    aspect-ratio: 3 / 4;
+    border-radius: var(--radius-lg);
+    border: 3px solid var(--color-primary);
+    background: linear-gradient(135deg, rgba(0, 255, 255, 0.05) 0%, rgba(0, 0, 0, 0.9) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 15px 40px rgba(0, 255, 255, 0.3), 0 0 60px rgba(0, 255, 255, 0.15);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.artist-image-large:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 50px rgba(0, 255, 255, 0.4), 0 0 80px rgba(0, 255, 255, 0.2);
+}
+
+.artist-image-placeholder {
+    font-size: 6rem;
+    font-weight: 900;
+    color: var(--color-primary);
+    text-shadow: 0 0 30px rgba(0, 255, 255, 0.8), 0 0 60px rgba(0, 255, 255, 0.4);
+    position: relative;
+    z-index: 1;
+}
+
+.artist-image-large img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: relative;
+    z-index: 1;
+}
+
+.artist-hero-name {
+    font-size: clamp(1.8rem, 3vw, 2.2rem);
+    color: var(--color-primary);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+    text-align: center;
+}
+
+.concert-info-hero {
+    text-align: center;
+    margin-top: var(--spacing-xxl);
+    position: relative;
+    z-index: 2;
+    padding: var(--spacing-lg);
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: var(--radius-md);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 255, 255, 0.2);
+}
+
+.concert-date-hero {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    color: var(--color-text-primary);
+    font-weight: 600;
+    margin-bottom: var(--spacing-md);
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+}
+
+.concert-venue-hero {
+    font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+    color: var(--color-primary);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
+}
+
+/* Grand Concert Section */
+.grand-concert-section {
+    background: linear-gradient(180deg, var(--color-bg) 0%, rgba(0, 255, 255, 0.03) 50%, var(--color-bg) 100%);
+    padding: var(--spacing-xxl) 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.concert-hero {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+    position: relative;
+    z-index: 1;
+}
+
+
+.concert-main-title {
+    font-size: 4rem;
+    color: var(--color-primary);
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    margin-bottom: var(--spacing-sm);
+    text-shadow: 0 0 30px rgba(0, 255, 255, 0.5), 0 0 60px rgba(0, 255, 255, 0.3);
+    position: relative;
+}
+
+.concert-subtitle {
+    font-size: 1.3rem;
+    color: var(--color-text-secondary);
+    font-weight: 400;
+    letter-spacing: 1px;
+}
+
+.concert-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-xl);
+    align-items: start;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.concert-artists {
+    background-color: var(--color-surface);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-xl);
+    border: 1px solid rgba(0, 255, 255, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.concert-artists::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--color-primary), transparent);
+}
+
+.artists-title {
+    font-size: 1.2rem;
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: var(--spacing-lg);
+    text-align: center;
+    font-weight: 500;
+}
+
+.artists-showcase {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+    flex-wrap: wrap;
+}
+
+.artist-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.artist-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 3px solid var(--color-primary);
+    background-color: var(--color-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.artist-avatar:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
+}
+
+.avatar-glow {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(0, 255, 255, 0.2) 0%, transparent 70%);
+    animation: rotate-glow 4s linear infinite;
+}
+
+@keyframes rotate-glow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.avatar-initial {
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: var(--color-primary);
+    position: relative;
+    z-index: 1;
+    text-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
+}
+
+.artist-name {
+    font-size: 1.3rem;
+    color: var(--color-primary);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: center;
+}
+
+.artist-divider {
+    font-size: 2rem;
+    color: var(--color-text-secondary);
+    font-weight: 300;
+    padding: 0 var(--spacing-sm);
+}
+
+.concert-venue-info {
+    text-align: center;
+    padding-top: var(--spacing-md);
+    border-top: 1px solid rgba(0, 255, 255, 0.2);
+}
+
+.venue-name {
+    font-size: 1.1rem;
+    color: var(--color-text-secondary);
+    font-weight: 400;
+}
+
+.concert-media {
+    width: 100%;
+}
+
+.video-wrapper {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(0, 255, 255, 0.2);
+    background-color: var(--color-surface);
+    box-shadow: 0 10px 40px rgba(0, 255, 255, 0.2);
+}
+
+.video-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: var(--radius-lg);
+}
+
+.concert-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-xl);
+    align-items: start;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.concert-singer {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.singer-info {
+    text-align: center;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.singer-title {
+    font-size: 1.5rem;
+    color: var(--color-primary);
+    margin-bottom: var(--spacing-md);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 600;
+}
+
+.singers-list {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    gap: var(--spacing-lg);
+    margin: var(--spacing-md) 0;
+    flex-wrap: wrap;
+}
+
+.singer-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-sm);
+    flex: 0 1 auto;
+}
+
+.singer-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 4px solid var(--color-primary);
+    background-color: var(--color-surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 30px rgba(0, 255, 255, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-bottom: var(--spacing-xs);
+}
+
+.singer-image:hover {
+    transform: scale(1.05);
+    box-shadow: 0 15px 40px rgba(0, 255, 255, 0.5);
+}
+
+.singer-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.singer-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    background: linear-gradient(135deg, rgba(0, 255, 255, 0.1) 0%, rgba(0, 255, 255, 0.05) 100%);
+}
+
+.singer-name {
+    font-size: 1.8rem;
+    color: var(--color-primary);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-align: center;
+}
+
+.concert-details {
+    margin-top: auto;
+    padding-top: var(--spacing-md);
+    text-align: center;
+}
+
+.concert-date {
+    font-size: 1.5rem;
+    color: var(--color-text-primary);
+    margin-bottom: var(--spacing-xs);
+    font-weight: 600;
+}
+
+.concert-time {
+    font-size: 1.2rem;
+    color: var(--color-primary);
+    margin-bottom: var(--spacing-xs);
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.concert-venue {
+    font-size: 1.1rem;
+    color: var(--color-text-secondary);
+    font-weight: 400;
+    margin-bottom: 0;
+}
+
+.concert-video {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+}
+
+.video-container {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    height: 0;
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(0, 255, 255, 0.2);
+    background-color: var(--color-surface);
+}
+
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: var(--radius-lg);
+}
+
+.sponsors-section {
+    position: relative;
+    background-color: transparent;
+    padding: var(--spacing-xxl) 0;
+    overflow: hidden;
+}
+
+.sponsors-marquee {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    height: 160px;
+    background: rgba(18, 20, 29, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+    padding: var(--spacing-md) 0;
+}
+
+@media (max-width: 992px) {
+    .schedule-container {
+        grid-template-columns: 1fr;
+    }
+
+    .concert-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-lg);
+    }
+
+    .concert-main-title {
+        font-size: 3rem;
+    }
+
+    .grand-concert-hero {
+        min-height: auto;
+        padding: var(--spacing-xl) 0;
+    }
+
+    .concert-hero-title {
+        font-size: clamp(2rem, 5vw, 3rem);
+        margin-bottom: var(--spacing-lg);
+    }
+
+    .concert-hero-content {
+        padding: var(--spacing-md) 0;
+    }
+
+    .artists-showcase-hero {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-xl);
+        margin: var(--spacing-lg) 0;
+    }
+
+    .artist-image-large {
+        max-width: 280px;
+    }
+
+    .artist-image-placeholder {
+        font-size: 4rem;
+    }
+
+    .artist-hero-name {
+        font-size: clamp(1.5rem, 3vw, 1.8rem);
+    }
+
+    .concert-info-hero {
+        margin-top: var(--spacing-lg);
+        padding: var(--spacing-md);
+    }
+
+    .concert-date-hero {
+        font-size: clamp(1.3rem, 3vw, 1.6rem);
+    }
+
+    .concert-venue-hero {
+        font-size: clamp(1rem, 2vw, 1.3rem);
+    }
+
+    .video-container {
+        min-height: 400px;
+    }
+
+    .video-container iframe {
+        min-height: 400px;
+    }
+
+    .singer-name {
+        font-size: 1.3rem;
+    }
+
+    .singer-image {
+        width: 100px;
+        height: 100px;
+    }
+
+    .singer-placeholder {
+        font-size: 2.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .sponsors-marquee {
+        height: 120px;
+        padding: var(--spacing-sm) 0;
+    }
+
+    .schedule-container {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-md);
+    }
+
+    .schedule-day {
+        padding: var(--spacing-md);
+    }
+
+    .day-header h3 {
+        font-size: 1.5rem;
+    }
+
+    .schedule-event {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--spacing-xs);
+    }
+
+    .schedule-event .event-venue {
+        align-self: flex-start;
+        text-align: left;
+        max-width: 100%;
+        margin-top: var(--spacing-xs);
+    }
+
+    .schedule-singers-container {
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--spacing-sm);
+    }
+
+    .schedule-singer-image {
+        max-width: 100px;
+        width: 100px;
+        height: 100px;
+    }
+
+    .schedule-singer-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    .schedule-singer-name {
+        font-size: 0.75rem;
+        line-height: 1.2;
+        word-wrap: break-word;
+    }
+
+    .schedule-singer-label {
+        font-size: 0.7rem;
+    }
+
+    .schedule-event-venue {
+        max-width: 100%;
+    }
+
+    .singer-name {
+        font-size: 1rem;
+        word-wrap: break-word;
+        text-align: center;
+    }
+
+    .singer-image {
+        width: 100px;
+        height: 100px;
+    }
+
+    .singer-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    .singer-placeholder {
+        font-size: 2.5rem;
+    }
+
+    .singers-list {
+        gap: var(--spacing-md);
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .concert-main-title {
+        font-size: 2.5rem;
+    }
+
+    .concert-subtitle {
+        font-size: 1.1rem;
+    }
+
+    .artists-showcase {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
+
+    .artist-divider {
+        font-size: 1.5rem;
+        padding: var(--spacing-xs) 0;
+    }
+
+    .artist-avatar {
+        width: 100px;
+        height: 100px;
+    }
+
+    .avatar-initial {
+        font-size: 3rem;
+    }
+
+    .artist-name {
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .sponsors-marquee {
+        height: 100px;
+    }
+}
+
+.sponsors-track {
+    display: flex;
+    gap: var(--spacing-xl);
+    animation: marquee 30s linear infinite;
+    width: fit-content;
+}
+
+@media (max-width: 768px) {
+    .sponsors-track {
+        gap: var(--spacing-lg);
+    }
+}
+
+.sponsor-logo {
+    min-width: 200px;
+    height: 100px;
+    background-color: var(--color-surface);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-sm);
+    flex-shrink: 0;
+    transition: transform var(--transition-fast);
+}
+
+.sponsor-logo:hover {
+    transform: scale(1.1);
+}
+
+.sponsor-logo img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    filter: grayscale(0%);
+    opacity: 1;
+    transition: filter var(--transition-normal), opacity var(--transition-normal);
+}
+
+.sponsor-logo:hover img {
+    filter: grayscale(100%);
+    opacity: 0.7;
+}
+
+/* Sponsors Page Grid */
+.sponsors-page {
+    background-color: var(--color-bg);
+    min-height: 100vh;
+}
+
+.sponsors-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--spacing-lg);
+    margin-top: var(--spacing-xl);
+}
+
+.sponsor-card {
+    background-color: var(--color-surface);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 150px;
+    transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.sponsor-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 40px rgba(0, 255, 255, 0.2);
+}
+
+.sponsor-card img {
+    max-width: 100%;
+    max-height: 120px;
+    object-fit: contain;
+    filter: grayscale(0%);
+    opacity: 1;
+    transition: filter var(--transition-normal), opacity var(--transition-normal);
+}
+
+.sponsor-card:hover img {
+    filter: grayscale(100%);
+    opacity: 0.8;
+}
+
+/* Responsive Design for Sponsors Page */
+@media (max-width: 992px) {
+    .sponsors-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-md);
+    }
+}
+
+@media (max-width: 768px) {
+    .sponsors-page {
+        padding-top: calc(var(--spacing-lg) + 80px) !important;
+    }
+
+    .sponsors-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-md);
+        margin-top: var(--spacing-lg);
+    }
+
+    .sponsor-card {
+        padding: var(--spacing-md);
+        min-height: 120px;
+    }
+
+    .sponsor-card img {
+        max-height: 100px;
+    }
+
+    .sponsors-intro {
+        font-size: 1rem !important;
+        margin-bottom: var(--spacing-lg) !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .sponsors-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-sm);
+    }
+
+    .sponsor-card {
+        padding: var(--spacing-sm);
+        min-height: 100px;
+    }
+
+    .sponsor-card img {
+        max-height: 80px;
+    }
+}
+
+@keyframes marquee {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+    .categories-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+}
+
+@media (max-width: 992px) {
+    .categories-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-sm);
+    }
+
+    .category-card {
+        height: 220px;
+        min-height: 220px;
+    }
+
+    .category-content h3 {
+        font-size: 1.8rem;
+    }
+
+    .category-count {
+        font-size: 0.85rem;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-section {
+        height: 100vh;
+        min-height: 500px;
+        max-height: 100vh;
+        padding: var(--spacing-md);
+        position: relative;
+    }
+
+    .hero-background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+
+    .hero-content {
+        padding: var(--spacing-md);
+        position: relative;
+        z-index: 2;
+    }
+
+    .hero-title {
+        font-size: clamp(2.5rem, 8vw, 4rem);
+    }
+
+    .hero-tagline {
+        font-size: clamp(1rem, 4vw, 1.5rem);
+    }
+
+    .hero-dates {
+        font-size: clamp(0.9rem, 3vw, 1.2rem);
+    }
+
+    /* Keep video fully visible on mobile */
+    .hero-video {
+        display: block;
+        object-fit: cover;
+    }
+
+    .hero-section::before {
+        display: none;
+    }
+
+    /* Only show fallback if video really doesn't work */
+    .hero-fallback {
+        display: none;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-md);
+    }
+
+    .stats-item {
+        padding: var(--spacing-md);
+    }
+
+    .stats-number {
+        font-size: 2.5rem;
+    }
+
+    .categories-section {
+        padding: var(--spacing-lg) 0;
+    }
+
+    .categories-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-sm);
+    }
+
+    .category-card {
+        height: 200px;
+        min-height: 200px;
+    }
+
+    .category-card h3 {
+        font-size: 1.3rem;
+    }
+
+    .category-content {
+        padding: var(--spacing-sm);
+    }
+
+    .category-count {
+        font-size: 0.7rem;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+        align-items: stretch;
+        gap: var(--spacing-sm);
+    }
+
+    .btn {
+        width: 100%;
+        text-align: center;
+        padding: var(--spacing-sm) var(--spacing-md);
+    }
+
+    .sponsors-marquee {
+        height: 120px;
+    }
+
+    .sponsor-logo {
+        min-width: 150px;
+        height: 80px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-section {
+        min-height: 500px;
+        padding: var(--spacing-sm);
+    }
+
+    .hero-content {
+        padding: var(--spacing-sm);
+    }
+
+    .hero-title {
+        font-size: 2rem;
+        margin-bottom: var(--spacing-sm);
+    }
+
+    .hero-tagline {
+        font-size: 1rem;
+        margin-bottom: var(--spacing-xs);
+    }
+
+    .hero-dates {
+        font-size: 0.9rem;
+        margin-bottom: var(--spacing-md);
+    }
+
+    .stats-number {
+        font-size: 2rem;
+    }
+
+    .stats-label {
+        font-size: 0.9rem;
+    }
+
+    .categories-section {
+        padding: var(--spacing-md) 0;
+    }
+
+    .category-card {
+        height: 180px;
+        min-height: 180px;
+    }
+
+    .category-content h3 {
+        font-size: 1.1rem;
+    }
+
+    .category-content {
+        padding: var(--spacing-xs);
+    }
+
+    .category-count {
+        font-size: 0.65rem;
+    }
+
+    .categories-grid {
+        gap: var(--spacing-xs);
+    }
+
+    .sponsor-logo {
+        min-width: 120px;
+        height: 60px;
+    }
+
+    .schedule-container {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-lg);
+    }
+
+    .concert-content {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-lg);
+    }
+
+    .concert-title {
+        font-size: 2rem;
+    }
+
+    .singer-name {
+        font-size: 1.8rem;
+    }
+
+    .singer-separator {
+        font-size: 1.5rem;
+    }
+
+    .concert-image {
+        min-height: 300px;
+    }
+}
+
+
