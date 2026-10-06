@@ -56,6 +56,10 @@
 
     /* ══════════════════════════════════════════════════════════
        AUDIO ENGINE — Android, iOS & Desktop Universal Support
+       Triple-fallback system:
+       1. Static DOM <audio id="curtain-audio">
+       2. Web Audio API (AudioContext)
+       3. Dynamic new Audio() instances
     ══════════════════════════════════════════════════════════ */
     function getAudioContext() {
         if (!audioCtx) {
@@ -68,7 +72,22 @@
     }
 
     function preloadAudio() {
-        /* 1. Preload via Web Audio API */
+        /* 1. Bind to static HTML5 <audio> tag in index.html */
+        try {
+            var staticAudio = document.getElementById('curtain-audio');
+            if (staticAudio) {
+                audio = staticAudio;
+                audio.volume = SOUND_VOLUME;
+                audio.addEventListener('loadedmetadata', function () {
+                    if (!isNaN(audio.duration) && audio.duration > 0) {
+                        soundDuration = audio.duration;
+                    }
+                });
+                audio.load();
+            }
+        } catch (e) {}
+
+        /* 2. Web Audio API buffer preload */
         try {
             var ctx = getAudioContext();
             if (ctx && window.fetch) {
@@ -89,37 +108,6 @@
                     .catch(function () {});
             }
         } catch (e) {}
-
-        /* 2. Attach real DOM <audio> element (Android Chrome requirement) */
-        try {
-            audio = document.createElement('audio');
-            audio.id = 'curtain-audio-node';
-            audio.preload = 'auto';
-            audio.setAttribute('playsinline', '');
-            audio.setAttribute('webkit-playsinline', '');
-            audio.style.display = 'none';
-
-            var s1 = document.createElement('source');
-            s1.src = SOUND_PATH_PRIMARY;
-            s1.type = 'audio/mpeg';
-            audio.appendChild(s1);
-
-            var s2 = document.createElement('source');
-            s2.src = SOUND_PATH_FALLBACK;
-            s2.type = 'audio/mpeg';
-            audio.appendChild(s2);
-
-            audio.addEventListener('loadedmetadata', function () {
-                if (!isNaN(audio.duration) && audio.duration > 0) {
-                    soundDuration = audio.duration;
-                }
-            });
-
-            document.body.appendChild(audio);
-            audio.load();
-        } catch (e) {
-            audio = null;
-        }
     }
 
     function playWebAudio(onEndedCallback) {
@@ -147,6 +135,27 @@
         return false;
     }
 
+    function playFallbackObjectAudio(onEndedCallback) {
+        try {
+            var a = new Audio(SOUND_PATH_PRIMARY);
+            a.volume = SOUND_VOLUME;
+            a.setAttribute('playsinline', '');
+            a.setAttribute('webkit-playsinline', '');
+            var p = a.play();
+            if (p !== undefined) {
+                p.then(function () {
+                    if (onEndedCallback) {
+                        a.addEventListener('ended', onEndedCallback, { once: true });
+                    }
+                }).catch(function () {
+                    var a2 = new Audio(SOUND_PATH_FALLBACK);
+                    a2.volume = SOUND_VOLUME;
+                    a2.play().catch(function () {});
+                });
+            }
+        } catch (e) {}
+    }
+
     function playSound(onEndedCallback) {
         var endedCalled = false;
         var handleEnded = function () {
@@ -155,7 +164,7 @@
             if (onEndedCallback) onEndedCallback();
         };
 
-        /* Ensure AudioContext is resumed synchronously on user gesture */
+        /* Ensure AudioContext is active */
         try {
             var ctx = getAudioContext();
             if (ctx && ctx.state === 'suspended') {
@@ -163,32 +172,34 @@
             }
         } catch (e) {}
 
-        /* Try DOM Audio first (Standard Android Chrome media path) */
-        var domSuccess = false;
-        if (audio) {
+        /* 1. Try static DOM <audio> element first */
+        var domEl = document.getElementById('curtain-audio') || audio;
+        if (domEl) {
             try {
-                audio.currentTime = 0;
-                audio.volume = SOUND_VOLUME;
-                var playPromise = audio.play();
+                domEl.currentTime = 0;
+                domEl.volume = SOUND_VOLUME;
+                var playPromise = domEl.play();
                 if (playPromise !== undefined) {
                     playPromise.then(function () {
-                        domSuccess = true;
-                        audio.addEventListener('ended', handleEnded, { once: true });
+                        domEl.addEventListener('ended', handleEnded, { once: true });
                     }).catch(function () {
-                        /* If DOM audio promise rejected on Android, fallback immediately to Web Audio */
+                        /* If DOM play fails, try Web Audio then dynamic Audio */
                         if (!playWebAudio(handleEnded)) {
-                            audio.addEventListener('ended', handleEnded, { once: true });
+                            playFallbackObjectAudio(handleEnded);
                         }
                     });
                 } else {
-                    domSuccess = true;
-                    audio.addEventListener('ended', handleEnded, { once: true });
+                    domEl.addEventListener('ended', handleEnded, { once: true });
                 }
             } catch (e) {
-                playWebAudio(handleEnded);
+                if (!playWebAudio(handleEnded)) {
+                    playFallbackObjectAudio(handleEnded);
+                }
             }
         } else {
-            playWebAudio(handleEnded);
+            if (!playWebAudio(handleEnded)) {
+                playFallbackObjectAudio(handleEnded);
+            }
         }
     }
 
@@ -811,17 +822,29 @@
             if (triggered) return;
             triggered = true;
 
-            /* Unlock audio context synchronously on user gesture */
-            var ctx = getAudioContext();
-            if (ctx && ctx.state === 'suspended') {
-                ctx.resume();
+            /* Direct user gesture trigger for HTML5 Audio */
+            var domEl = document.getElementById('curtain-audio');
+            if (domEl) {
+                try {
+                    domEl.currentTime = 0;
+                    domEl.volume = SOUND_VOLUME;
+                    domEl.play().catch(function () {});
+                } catch (e) {}
             }
+
+            /* Direct user gesture trigger for Web Audio API */
+            try {
+                var ctx = getAudioContext();
+                if (ctx && ctx.state === 'suspended') {
+                    ctx.resume();
+                }
+            } catch (e) {}
+
             openCurtain(ov);
         };
 
         ov.addEventListener('click', triggerOpen);
         ov.addEventListener('touchend', triggerOpen, { passive: true });
-        ov.addEventListener('pointerdown', triggerOpen, { passive: true });
     }
 
     if (document.readyState === 'loading') {
