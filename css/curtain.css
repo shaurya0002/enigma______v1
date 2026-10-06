@@ -1,0 +1,354 @@
+/* ============================================================
+   CURTAIN — Proscenium · 10% initial gap → 100% full open
+   ============================================================ */
+
+/* ── Overlay — transparent so site shows through the gap ──── */
+#curtain-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    overflow: hidden;
+    pointer-events: none;
+    background: transparent;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    contain: layout paint;
+}
+#curtain-overlay.curtain-done { display: none; }
+
+/* ── Thanos Reverse Snap States ── */
+.hero-dates.snap-hidden {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+.hero-dates.snap-revealed {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+#thanos-snap-canvas {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9998;
+    pointer-events: none;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   PELMET — gold cornice
+══════════════════════════════════════════════════════════════ */
+#c-pelmet {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 52px;
+    z-index: 30;
+    pointer-events: none;
+    background: linear-gradient(180deg,
+        #1a1000  0%, #3d2800 12%, #7a5200 25%,
+        #b88c00 40%, #e8c000 52%, #ffd700 58%,
+        #ffe566 62%, #ffd700 66%, #c8a000 76%,
+        #8b6200 88%, #3d2800 100%
+    );
+    box-shadow:
+        0 6px 24px rgba(0,0,0,0.9),
+        0 2px 0 rgba(255,220,80,0.5) inset,
+        0 -2px 0 rgba(0,0,0,0.6) inset;
+    transform: translateZ(0);
+}
+#c-pelmet::after {
+    content: '';
+    position: absolute;
+    bottom: -6px; left: 0; right: 0;
+    height: 6px;
+    background: repeating-linear-gradient(
+        90deg,
+        #8b6200 0px, #ffd700 4px, #ffe566 6px, #ffd700 8px, #8b6200 12px
+    );
+    box-shadow: 0 3px 8px rgba(0,0,0,0.6);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   VALANCE
+══════════════════════════════════════════════════════════════ */
+#c-valance {
+    position: absolute;
+    top: 46px; left: 0; right: 0;
+    height: 230px;
+    z-index: 20;
+    pointer-events: none;
+    overflow: visible;
+    transform: translateZ(0);
+    filter: drop-shadow(0 5px 8px rgba(0,0,0,0.65));
+}
+#c-valance svg {
+    width: 100%; height: 230px;
+    display: block; overflow: visible;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   PANELS
+══════════════════════════════════════════════════════════════ */
+.c-panel {
+    position: absolute;
+    top: 0; bottom: 0;
+    pointer-events: all;
+    cursor: pointer;
+    overflow: hidden;
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    z-index: 10;
+}
+#cp-left  { left: 0;  width: 51%; transform-origin: left center; }
+#cp-right { right: 0; width: 51%; transform-origin: right center; }
+
+/* ── Rod ── */
+.c-rod {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 52px; z-index: 25;
+    background: transparent;
+}
+.c-ring {
+    position: absolute;
+    top: 34px;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    transform: translateX(-50%);
+    z-index: 26;
+    background: radial-gradient(circle at 35% 30%,
+        #fff8d0 0%, #ffd700 35%, #8b6200 70%, #3d2800 100%);
+    border: 2px solid #5a3c00;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.7),
+                inset 0 1px 3px rgba(255,255,255,0.3);
+}
+.c-ring::after {
+    content: '';
+    position: absolute;
+    bottom: -8px; left: 50%;
+    transform: translateX(-50%);
+    width: 2px; height: 8px;
+    background: linear-gradient(180deg, #c8a000, #3d2800);
+}
+
+/* ── Folds container ── */
+.c-folds {
+    position: absolute;
+    top: 52px; left: 0; right: 0; bottom: 0;
+    display: flex; overflow: hidden;
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+/* ── Fold strips — deep S-curve velvet ── */
+.c-fold {
+    flex: 1; min-width: 0; height: 100%;
+    position: relative;
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    box-shadow: -1px 0 4px rgba(0,0,0,0.55) inset;
+}
+.c-fold:nth-child(odd) {
+    background: linear-gradient(90deg,
+        #030000  0%, #180000  8%, #5a0000 22%,
+        #a80010 38%, #cc1825 48%, #e02535 52%,
+        #cc1825 58%, #900010 74%, #3d0000 88%, #0a0000 100%
+    );
+}
+.c-fold:nth-child(even) {
+    background: linear-gradient(90deg,
+        #000000 0%, #050000 12%, #0d0000 30%,
+        #130000 48%, #0d0000 62%, #050000 80%, #000000 100%
+    );
+}
+.c-fold::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+        172deg,
+        transparent 0px, rgba(255,255,255,0.011) 1px,
+        transparent 2px, transparent 6px
+    );
+    pointer-events: none; z-index: 1;
+}
+.c-fold::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(255,200,200,0.02) 40%, rgba(255,220,220,0.10) 50%,
+        rgba(255,200,200,0.02) 60%, transparent 100%
+    );
+    pointer-events: none; z-index: 2;
+}
+
+/* ── Side fringe on leading edges ── */
+#cp-left  .c-fringe { right: 0; }
+#cp-right .c-fringe { left:  0; }
+.c-fringe {
+    position: absolute; top: 52px; bottom: 0;
+    width: 12px; z-index: 15; pointer-events: none;
+    background: repeating-linear-gradient(
+        180deg,
+        #8b6200 0px, #ffd700 3px, #ffe566 5px, #ffd700 7px, #8b6200 10px
+    );
+    box-shadow: 0 0 8px rgba(0,0,0,0.5);
+}
+
+/* ── Hem ── */
+.c-hem {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 24px; z-index: 14; pointer-events: none; overflow: hidden;
+}
+.c-hem::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 8px;
+    /* Maroon braid top band */
+    background: repeating-linear-gradient(
+        90deg,
+        #2d0000 0px, #7a0010 3px, #aa0020 5px, #7a0010 7px, #2d0000 10px
+    );
+}
+.c-hem::after {
+    content: '';
+    position: absolute; top: 8px; left: 0; right: 0; bottom: 0;
+    /* Maroon fringe strands */
+    background:
+        repeating-linear-gradient(90deg,
+            #5a0000 0px, transparent 2px, transparent 6px,
+            #3d0000 7px, transparent 9px, transparent 14px,
+            #8b0010 15px, transparent 17px
+        ),
+        linear-gradient(180deg, #7a0010 0%, #2d0000 100%);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   IDLE — gentle sway in the partially-open state
+══════════════════════════════════════════════════════════════ */
+@keyframes folds-sway-left {
+    0%   { transform: translate3d(0, 0, 0)      skewX(0deg); }
+    22%  { transform: translate3d(-2.5px, 0, 0) skewX(-0.22deg); }
+    50%  { transform: translate3d(1.2px, 0, 0)  skewX(0.14deg); }
+    78%  { transform: translate3d(-1px, 0, 0)   skewX(-0.1deg); }
+    100% { transform: translate3d(0, 0, 0)      skewX(0deg); }
+}
+@keyframes folds-sway-right {
+    0%   { transform: translate3d(0, 0, 0)     skewX(0deg); }
+    22%  { transform: translate3d(2.5px, 0, 0) skewX(0.22deg); }
+    50%  { transform: translate3d(-1px, 0, 0)  skewX(-0.14deg); }
+    78%  { transform: translate3d(1px, 0, 0)   skewX(0.1deg); }
+    100% { transform: translate3d(0, 0, 0)     skewX(0deg); }
+}
+@keyframes hem-sway-left {
+    0%,100% { transform: translate3d(0, 0, 0); }
+    28%     { transform: translate3d(-5px, 0, 0); }
+    60%     { transform: translate3d(3px, 0, 0); }
+}
+@keyframes hem-sway-right {
+    0%,100% { transform: translate3d(0, 0, 0); }
+    28%     { transform: translate3d(5px, 0, 0); }
+    60%     { transform: translate3d(-3px, 0, 0); }
+}
+@keyframes valance-sway {
+    0%,100% { transform: translate3d(0, 0, 0); }
+    40%     { transform: translate3d(0, 3px, 0); }
+    70%     { transform: translate3d(0, -2px, 0); }
+}
+@keyframes fold-idle-shimmer {
+    0%,100% { opacity: 0.9; }
+    50%     { opacity: 1; }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   OPENING ANIMATION
+   Keyframes START from scaleX(0.882) — the initial 10% gap.
+   They end at scaleX(0.03) + opacity 0 → fully reveal site.
+══════════════════════════════════════════════════════════════ */
+@keyframes velvet-left {
+    0%   { transform: scaleX(1.00); opacity: 1; }
+    5%   { transform: scaleX(1.04); opacity: 1; }   /* tug inward     */
+    18%  { transform: scaleX(0.85); opacity: 1; }   /* gather begins  */
+    60%  { transform: scaleX(0.12); opacity: 1; }   /* rapid sweep    */
+    80%  { transform: scaleX(0.04); opacity: 1; }   /* overshoot      */
+    90%  { transform: scaleX(0.06); opacity: 0.6; } /* elastic bounce */
+    100% { transform: scaleX(0.03); opacity: 0; }   /* fully open     */
+}
+@keyframes velvet-right {
+    0%   { transform: scaleX(1.00); opacity: 1; }
+    5%   { transform: scaleX(1.04); opacity: 1; }
+    18%  { transform: scaleX(0.85); opacity: 1; }
+    60%  { transform: scaleX(0.12); opacity: 1; }
+    80%  { transform: scaleX(0.04); opacity: 1; }
+    90%  { transform: scaleX(0.06); opacity: 0.6; }
+    100% { transform: scaleX(0.03); opacity: 0; }
+}
+
+/* Sine-wave ripple per fold strip */
+@keyframes fold-sine {
+    0%   { transform: translate3d(0, 0, 0); }
+    20%  { transform: translate3d(0, var(--sa-up, -22px), 0); }
+    40%  { transform: translate3d(0, 0, 0); }
+    60%  { transform: translate3d(0, var(--sa-dn,  18px), 0); }
+    80%  { transform: translate3d(0, 0, 0); }
+    90%  { transform: translate3d(0, var(--sa-d2,  -6px), 0); }
+    100% { transform: translate3d(0, 0, 0); }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   TAP HINT
+══════════════════════════════════════════════════════════════ */
+.curtain-hint {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex; flex-direction: column;
+    align-items: center; gap: 10px;
+    pointer-events: none; z-index: 18;
+    animation: hint-breathe 2.4s ease-in-out infinite;
+}
+.curtain-hint-ring {
+    width: 52px; height: 52px; border-radius: 50%;
+    border: 2px solid rgba(255,180,100,0.65);
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+}
+.curtain-hint-ring::after {
+    content: '';
+    position: absolute; inset: -7px; border-radius: 50%;
+    border: 2px solid rgba(255,140,0,0.22);
+    animation: pulse-ring 2s ease-out infinite;
+}
+.curtain-hint-icon { font-size: 18px; line-height: 1; }
+.curtain-hint-text {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px; font-weight: 600;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: rgba(255,210,150,0.75);
+}
+@keyframes hint-breathe {
+    0%,100% { opacity: 0.9; transform: translate(-50%,-50%) scale(1); }
+    50%     { opacity: 0.4; transform: translate(-50%,-50%) scale(0.9); }
+}
+@keyframes pulse-ring {
+    0%   { transform: scale(1);   opacity: 0.5; }
+    100% { transform: scale(1.9); opacity: 0; }
+}
+#curtain-overlay.curtain-open .curtain-hint {
+    opacity: 0; transition: opacity 0.3s; pointer-events: none;
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   MOBILE
+══════════════════════════════════════════════════════════════ */
+@media (max-width: 520px) {
+    #cp-left, #cp-right { width: 52%; }
+    #c-valance { height: 140px; }
+    #c-valance svg { height: 140px; }
+}
+

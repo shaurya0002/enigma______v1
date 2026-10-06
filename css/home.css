@@ -15,6 +15,7 @@
     background-color: #0A0B10;
     margin: 0;
     padding: 0;
+    contain: layout paint;
 }
 
 .hero-background {
@@ -22,6 +23,7 @@
     inset: 0;
     z-index: 0;
     overflow: hidden;
+    transform: translateZ(0);
 }
 
 .hero-video {
@@ -33,6 +35,9 @@
     z-index: 1;
     pointer-events: none;
     filter: brightness(0.85) saturate(1.1);
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    will-change: transform;
 }
 
 .hero-overlay {
@@ -74,6 +79,7 @@
     display: inline-block;
     text-shadow: 0 2px 25px rgba(0, 0, 0, 0.9);
     animation: glitch 5s infinite ease-in-out;
+    transform: translateZ(0);
 }
 
 .hero-title::before,
@@ -86,6 +92,8 @@
     height: 100%;
     background: transparent;
     pointer-events: none;
+    transform: translateZ(0);
+    will-change: clip-path, transform;
 }
 
 .hero-title::before {
