@@ -43,35 +43,122 @@
     /* ══════════════════════════════════════════════════════════
        STATE
     ══════════════════════════════════════════════════════════ */
-    var isOpen     = false;
-    var audio      = null;
-    var cpLeft     = null;
-    var cpRight    = null;
-    var valanceSvg = null;
-    var allFolds   = [];
-    var allHems    = [];
+    var isOpen       = false;
+    var audio        = null;
+    var audioCtx     = null;
+    var audioBuffer  = null;
+    var cpLeft       = null;
+    var cpRight      = null;
+    var valanceSvg   = null;
+    var allFolds     = [];
+    var allHems      = [];
 
     /* ══════════════════════════════════════════════════════════
-       AUDIO
+       AUDIO ENGINE — Android & Mobile Compatibility
+       Uses Web Audio API for instantaneous playback with
+       HTML5 Audio fallback and proper URL encoding.
     ══════════════════════════════════════════════════════════ */
+    function getAudioContext() {
+        if (!audioCtx) {
+            var AudioContextClass = window.AudioContext || window.webkitAudioContext;
+            if (AudioContextClass) {
+                audioCtx = new AudioContextClass();
+            }
+        }
+        return audioCtx;
+    }
+
     function preloadAudio() {
         if (!SOUND_PATH) return;
+
+        var encodedUrl = encodeURI(SOUND_PATH);
+
+        /* 1. Try Web Audio API (immune to mobile HTML5 Audio buffering/decoding hiccups) */
         try {
-            audio = new Audio(SOUND_PATH);
+            var ctx = getAudioContext();
+            if (ctx && window.fetch) {
+                fetch(encodedUrl)
+                    .then(function (res) {
+                        if (!res.ok) throw new Error('Network response not ok');
+                        return res.arrayBuffer();
+                    })
+                    .then(function (buf) {
+                        return ctx.decodeAudioData(buf, function (decoded) {
+                            audioBuffer = decoded;
+                            if (decoded && decoded.duration) {
+                                soundDuration = decoded.duration;
+                            }
+                        });
+                    })
+                    .catch(function () {
+                        /* Fetch or CORS may fail in local file protocol — HTML5 Audio will handle it */
+                    });
+            }
+        } catch (e) {}
+
+        /* 2. HTML5 Audio (configured for mobile autoplay unlock) */
+        try {
+            audio = new Audio();
+            audio.src = encodedUrl;
             audio.volume = SOUND_VOLUME;
             audio.preload = 'auto';
-            /* Capture the real duration as soon as browser has the metadata */
+            audio.setAttribute('playsinline', 'true');
+            audio.setAttribute('webkit-playsinline', 'true');
+            audio.crossOrigin = 'anonymous';
+
             audio.addEventListener('loadedmetadata', function () {
                 if (!isNaN(audio.duration) && audio.duration > 0) {
                     soundDuration = audio.duration;
                 }
             });
-        } catch (e) { audio = null; }
+            audio.load();
+        } catch (e) {
+            audio = null;
+        }
     }
-    function playSound() {
-        if (!audio) return;
-        audio.currentTime = 0;
-        audio.play().catch(function () {});
+
+    function playSound(onEndedCallback) {
+        var played = false;
+
+        /* 1. Try Web Audio API first */
+        try {
+            var ctx = getAudioContext();
+            if (ctx) {
+                if (ctx.state === 'suspended') {
+                    ctx.resume();
+                }
+                if (audioBuffer) {
+                    var source = ctx.createBufferSource();
+                    source.buffer = audioBuffer;
+                    var gain = ctx.createGain();
+                    gain.gain.value = SOUND_VOLUME;
+                    source.connect(gain);
+                    gain.connect(ctx.destination);
+                    if (onEndedCallback) {
+                        source.onended = onEndedCallback;
+                    }
+                    source.start(0);
+                    played = true;
+                }
+            }
+        } catch (e) {}
+
+        /* 2. HTML5 Audio Fallback */
+        if (!played && audio) {
+            try {
+                audio.currentTime = 0;
+                var playPromise = audio.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(function () {
+                        if (onEndedCallback) {
+                            audio.addEventListener('ended', onEndedCallback, { once: true });
+                        }
+                    }).catch(function () {
+                        /* If browser strictly blocks media, onEnded will trigger via timer */
+                    });
+                }
+            } catch (e) {}
+        }
     }
 
     /* ══════════════════════════════════════════════════════════
@@ -634,14 +721,27 @@
         if (isOpen) return;
         isOpen = true;
 
-        playSound();
+        /* Hide overlay and trigger reverse Thanos snap when curtain finishes */
+        var done = false;
+        function finish() {
+            if (done) return;
+            done = true;
+            ov.classList.add('curtain-done');
+            var dateBtn = document.querySelector('.hero-dates');
+            if (dateBtn) {
+                triggerReverseThanosSnap(dateBtn);
+            }
+        }
+
+        /* Play audio (Web Audio API or HTML5 Audio fallback) */
+        playSound(finish);
         stopIdle(ov);
         ov.classList.add('curtain-open');
 
-        /* Use the real audio duration; fall back to soundDuration (6 s) */
-        var dur = (audio && !isNaN(audio.duration) && audio.duration > 0)
-                  ? audio.duration
-                  : soundDuration;
+        /* Duration calculation */
+        var dur = (audioBuffer && audioBuffer.duration) ? audioBuffer.duration :
+                  (audio && !isNaN(audio.duration) && audio.duration > 0) ? audio.duration :
+                  soundDuration;
 
         var ease = 'cubic-bezier(0.37, 0, 0.63, 1)';
 
@@ -657,21 +757,6 @@
             fold.style.animationDelay          = fold.style.getPropertyValue('--fd');
         });
 
-        /* Hide overlay and trigger reverse Thanos snap when curtain finishes */
-        var done = false;
-        function finish() {
-            if (done) return;
-            done = true;
-            ov.classList.add('curtain-done');
-            var dateBtn = document.querySelector('.hero-dates');
-            if (dateBtn) {
-                triggerReverseThanosSnap(dateBtn);
-            }
-        }
-
-        if (audio) {
-            audio.addEventListener('ended', finish, { once: true });
-        }
         /* Safety fallback in case audio.ended never fires */
         setTimeout(finish, dur * 1000 + 600);
     }
@@ -690,10 +775,19 @@
         var ov = buildOverlay();
         startIdle(ov);
 
-        ov.addEventListener('click', function () { openCurtain(ov); });
-        ov.addEventListener('touchstart', function (e) {
-            e.preventDefault(); openCurtain(ov);
-        }, { passive: false });
+        var triggerOpen = function (e) {
+            if (e && e.type === 'touchstart') {
+                /* Unlock audio context on initial touch */
+                var ctx = getAudioContext();
+                if (ctx && ctx.state === 'suspended') {
+                    ctx.resume();
+                }
+            }
+            openCurtain(ov);
+        };
+
+        ov.addEventListener('pointerdown', triggerOpen, { passive: true });
+        ov.addEventListener('click', triggerOpen);
     }
 
     if (document.readyState === 'loading') {
